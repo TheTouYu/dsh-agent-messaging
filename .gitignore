@@ -1,0 +1,8 @@
+node_modules/
+*.tgz
+*.log
+.DS_Store
+
+# 注：lib/ 必须入库 —— package.json 的 main = lib/index.js，
+# 本包为分发形态（无 src/，lib 即源码即产物）。
+!lib/

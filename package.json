@@ -1,0 +1,33 @@
+{
+  "name": "@dsh-external/dsh-agent-messaging",
+  "version": "0.1.0",
+  "description": "Agent messaging for DeepSeek Harness: let any live agent send messages to any other agent (opt-in via a live front-end toggle), with completion summaries back to the sender",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "MIT"
+}
