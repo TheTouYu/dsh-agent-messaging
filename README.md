@@ -2,16 +2,28 @@
 
 让任意两个 agent 会话跨会话互发消息(每会话可选开启),含历史会话自动恢复。
 
-## 安装 / 注入
+## 安装（插件级 · 推荐）
+
+本插件是**普通 profile 插件**：进 `dsh.profile.bundles` 即启动加载，**不依赖 dsh-super-injector**。
 
 ```bash
-# 构建
-cd /home/h/app/dsh-agent-messaging && npm pack   # 或 dev_build_plugin
-# 注入(runtime,免重启)
-dev_inject_plugin dir=/home/h/app/dsh-agent-messaging
-# 或持久装配
-dev_install_package dir=/home/h/app/dsh-agent-messaging
+# 1) 让它可被 profile 解析（两种任选）
+cd /home/h/app/dsh-agent-messaging && npm pack      # 产出 tgz，供 profile 以 file: 安装
+#   或在 profile 的 package.json 里写 link 依赖：
+#   "@dsh-external/dsh-agent-messaging": "link:/home/h/app/dsh-agent-messaging"
+
+# 2) 进 bundles（profile 的 package.json）
+#   "dsh": { "profile": { "bundles": [ ..., "@dsh-external/dsh-agent-messaging" ] } }
 ```
+
+包自带 `cordis.patch.yml`（`dsh.bundle.patch` 指向它），bundle 层只插一行宿主面行；
+客户端半边由 `dsh.client`（platform=web + inject）声明，无需在 patch 里写。
+
+### 旧的注入式安装（保留备选）
+
+用 `dev_install_package dir=/home/h/app/dsh-agent-messaging` 走 dsh-super-injector 运行期注入。
+注入态的代价：**它不是装配件** —— 重启不会自动回来（要靠注入器 registry 重放），且装配面（bundles）
+与运行面（工具面）是两套真相。2026-09-14 起宿主 3100 已改为插件级。
 
 ## 开关(每会话)
 

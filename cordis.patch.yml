@@ -1,0 +1,14 @@
+# dsh-agent-messaging 的 bundle patch：把插件作为**普通 profile 插件**插入宿主面。
+#
+# 为什么要有这一层（2026-09-14 升级）：插件原先靠 dsh-super-injector 在运行期注入
+# 才能生效（README 旧版即如此写）。注入态的代价是：
+#   · 它不是装配件 —— 重启宿主不会自动回来（要靠注入器的 registry 重放）；
+#   · 装配面与运行面两套真相（bundles 里找不到它，工具面却存在）。
+# 改成 bundle 后：profile 的 `dsh.profile.bundles` 里有它 ⇒ 启动即载，与官方 bundle 同一条路径。
+#
+# 客户端半边不需要在这里写行：package.json 的 `dsh.client`（platform=web + inject）
+# 已经声明，UI 由客户端运行时按该元数据装配。
+- insert:
+    - id: agent-messaging
+      name: '@dsh-external/dsh-agent-messaging'
+      config: {}
